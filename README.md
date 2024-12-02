@@ -11,10 +11,11 @@ To install the package, follow the instructions in the [Installation Guide](http
 
 See the [Quick Usage Guide](https://fdhpy.readthedocs.io/en/latest/usage.html) to get started.
 
-## License
+## Credits
+Code Development by Alex Sarmiento with direct contributions from Grigoris Lavrentiadis, Albert Kottke, Nicolas Kuehn, and Arash Zandieh.
 
+## License
 This project is licensed under the MIT License. See the [LICENSE](https://github.com/NHR3-UCLA/FDHI_FDM/blob/main/LICENSE) file for details.
 
 ## Citing this Work
-
 If you use this software, please cite it using the following DOI: [![DOI](https://zenodo.org/badge/829626950.svg)](https://zenodo.org/doi/10.5281/zenodo.13552790).
