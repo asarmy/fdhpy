@@ -17,6 +17,7 @@ Welcome to fdhpy's Documentation!
    usage
    fdhpy
    changelog
+   repo
    authors
 
 
