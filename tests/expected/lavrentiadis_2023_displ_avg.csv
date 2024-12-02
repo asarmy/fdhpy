@@ -1,0 +1,10 @@
+﻿style,version,metric,magnitude,percentile,avg_displ
+strike-slip,full rupture,sum-of-principal,6,0.5,0.090071025
+strike-slip,full rupture,sum-of-principal,7,0.5,1.485783252
+strike-slip,full rupture,sum-of-principal,8,0.5,4.36883497
+reverse,full rupture,sum-of-principal,6,0.5,0.450331211
+reverse,full rupture,sum-of-principal,7,0.5,1.442062091
+reverse,full rupture,sum-of-principal,8,0.5,4.465979947
+normal,full rupture,sum-of-principal,6,0.5,0.097606892
+normal,full rupture,sum-of-principal,7,0.5,1.312862733
+normal,full rupture,sum-of-principal,8,0.5,4.009808553

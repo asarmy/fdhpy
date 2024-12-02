@@ -1,0 +1,9 @@
+model,use_girs,magnitude,x_l,displacement,probexceed_with_full_aleatory
+D/AD,TRUE,7,0.5,0.01,0.99995734
+D/AD,TRUE,7,0.5,0.03,0.999329873
+D/AD,TRUE,7,0.5,0.1,0.988207008
+D/AD,TRUE,7,0.5,0.3,0.887364491
+D/AD,TRUE,7,0.5,1,0.419299291
+D/AD,TRUE,7,0.5,3,0.03573926
+D/AD,TRUE,7,0.5,10,4.40E-05
+D/AD,TRUE,7,0.5,30,6.13E-10
