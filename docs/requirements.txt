@@ -1,0 +1,7 @@
+# docs/requirements.txt
+
+sphinx>=5.3.0
+sphinx-rtd-theme>=1.0.0
+toml>=0.10.2
+sphinxcontrib-bibtex>=2.4.2
+myst-parser>=1.0.0
