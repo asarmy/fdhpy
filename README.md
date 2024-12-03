@@ -3,6 +3,7 @@
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 ![Coverage](https://github.com/asarmy/fdhpy/raw/coverage-data-branch/badge.svg)
 [![DOI](https://zenodo.org/badge/829626950.svg)](https://zenodo.org/doi/10.5281/zenodo.13552790)
+![Downloads](https://pepy.tech/badge/fdhpy)
 
 ## Overview
 Fault displacement models implemented in Python.
