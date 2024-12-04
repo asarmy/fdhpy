@@ -10,10 +10,10 @@ Fault displacement models implemented in Python.
 
 To install the package, follow the instructions in the [Installation Guide](https://fdhpy.readthedocs.io/en/latest/installation.html).
 
-See the [Quick Usage Guide](https://fdhpy.readthedocs.io/en/latest/usage.html) to get started.
+See the [Quick Usage Guide](https://fdhpy.readthedocs.io/en/latest/usage.html) or the examples in [this notebook](https://github.com/asarmy/fdhpy/blob/main/examples/examples.ipynb) to get started.
 
 ## Credits
-Code Development by Alex Sarmiento with direct contributions from Grigoris Lavrentiadis, Albert Kottke, Nicolas Kuehn, and Arash Zandieh.
+Code Development by Alex Sarmiento with direct contributions from Grigorios Lavrentiadis, Albert Kottke, Nicolas Kuehn, and Arash Zandieh.
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](https://github.com/NHR3-UCLA/FDHI_FDM/blob/main/LICENSE) file for details.
