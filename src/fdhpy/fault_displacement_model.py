@@ -103,7 +103,7 @@ class FaultDisplacementModel(FaultDisplacementModelVariables, ABC):
     # uncertainty or partially non-ergodic evaluations; or can use separate methods, such as
     # `displ_site_adjusted(self, *args)`
     @property
-    @_required("xl", "percentile", "magnitude", "style")
+    @_required("magnitude", "xl", "style", "percentile")
     def displ_site(self) -> Optional[Union[float, np.ndarray]]:
         """
         Calculate deterministic scenario displacement in meters.
@@ -148,7 +148,7 @@ class FaultDisplacementModel(FaultDisplacementModelVariables, ABC):
         pass
 
     @property
-    @_required("percentile", "magnitude", "style")
+    @_required("magnitude", "style", "percentile")
     def displ_avg(self) -> Optional[float]:
         """
         Calculate average displacement in meters.
@@ -194,7 +194,7 @@ class FaultDisplacementModel(FaultDisplacementModelVariables, ABC):
         pass
 
     @property
-    @_required("percentile", "magnitude", "style")
+    @_required("magnitude", "style", "percentile")
     def displ_max(self) -> Optional[float]:
         """
         Calculate maximum displacement in meters. Not available in all models
@@ -240,7 +240,7 @@ class FaultDisplacementModel(FaultDisplacementModelVariables, ABC):
         pass
 
     @property
-    @_required("xl", "magnitude", "style")
+    @_required("magnitude", "style", "xl")
     def cdf(self) -> Optional[np.ndarray]:
         """
         Calculate the probability that the displacement is less than or equal to a specific value.
@@ -288,7 +288,7 @@ class FaultDisplacementModel(FaultDisplacementModelVariables, ABC):
         pass
 
     @property
-    @_required("xl", "magnitude", "style")
+    @_required("magnitude", "style", "xl")
     def prob_exceed(self) -> Optional[np.ndarray]:
         """
         Calculate the probability that the displacement exceeds a specific value.
