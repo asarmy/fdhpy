@@ -22,6 +22,9 @@ class NormalizedFaultDisplacementModel:
     def __init__(self, context):
         self.context = context  # Store context for access to its attributes
 
+    # NOTE: Checks for required scenario attributes (e.g., magnitude, xl, percentile) are handled
+    # upstream in FaultDisplacementModel class.
+
     def _calc_mag_scale_stat_params(
         self, regr_params: Mapping[str, Optional[float]]
     ) -> Tuple[float, float]:

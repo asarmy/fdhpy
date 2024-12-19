@@ -140,7 +140,7 @@ class MossEtAl2024(FaultDisplacementModel):
 
     # Mandated methods in FaultDisplacementModel parent class
     def _statistical_distribution_params(self) -> None:
-        if self._folded_xl is not None:
+        if self.xl is not None:
             # Compute alpha and beta parameters based on folded x/L and model version using
             # regression model in GIRS report Figures 4.3 & 4.4
             if self.use_girs:
@@ -179,10 +179,12 @@ class MossEtAl2024(FaultDisplacementModel):
             "d/ad": self._AD_MAG_SCALE_PARAMS,
             "d/md": self._MD_MAG_SCALE_PARAMS,
         }
-        # NOTE: magnitude is handled in self._normalized_calcs
-        p = self._normalized_calcs._calc_mag_scale_stat_params(regr_params_map[self.version])
 
-        self._mu, self._sigma = p[0], p[1]
+        if self.magnitude is not None:
+            # NOTE: mu based on magnitude is handled in self._normalized_calcs
+            p = self._normalized_calcs._calc_mag_scale_stat_params(regr_params_map[self.version])
+
+            self._mu, self._sigma = p[0], p[1]
 
         # Set to None if not computed
         self._alpha = getattr(self, "_alpha", None)

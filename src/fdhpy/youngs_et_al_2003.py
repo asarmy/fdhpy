@@ -116,7 +116,7 @@ class YoungsEtAl2003(FaultDisplacementModel):
             logging.error(e)
             return
 
-        if self._folded_xl is not None:
+        if self.xl is not None:
             if self.version == "d/ad":
                 a1, a2 = 1.628, -0.193
                 b1, b2 = -0.476, 0.009
@@ -132,10 +132,12 @@ class YoungsEtAl2003(FaultDisplacementModel):
             "d/ad": self._AD_MAG_SCALE_PARAMS,
             "d/md": self._MD_MAG_SCALE_PARAMS,
         }
-        # NOTE: magnitude is handled in self._normalized_calcs
-        p = self._normalized_calcs._calc_mag_scale_stat_params(regr_params_map[self.version])
 
-        self._mu, self._sigma = p[0], p[1]
+        if self.magnitude is not None:
+            # NOTE: mu based on magnitude is handled in self._normalized_calcs
+            p = self._normalized_calcs._calc_mag_scale_stat_params(regr_params_map[self.version])
+
+            self._mu, self._sigma = p[0], p[1]
 
         # Set to None if not computed
         self._alpha = getattr(self, "_alpha", None)
