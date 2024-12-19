@@ -80,10 +80,6 @@ class YoungsEtAl2003(FaultDisplacementModel):
 
     _MODEL_NAME = "YoungsEtAl2003"
 
-    # Parameters based on Wells and Coppersmith (1994) All styles
-    _AD_MAG_SCALE_PARAMS = {"intercept": -4.8, "slope": 0.69, "std_dev": 0.36}
-    _MD_MAG_SCALE_PARAMS = {"intercept": -5.46, "slope": 0.82, "std_dev": 0.42}
-
     # Override the init method to set model defaults
     def __init__(self, **kwargs):
         kwargs.setdefault("metric", "principal")
@@ -98,6 +94,18 @@ class YoungsEtAl2003(FaultDisplacementModel):
         return self._calc_folded_xl()
 
     # Required methods for implementing normalized fault displacement models
+    @property
+    def _AD_MAG_SCALE_PARAMS(self):
+        """Set parameters for loglinear magnitude scaling for average displacement."""
+        # Parameters based on Wells and Coppersmith (1994) All styles
+        return {"intercept": -4.8, "slope": 0.69, "std_dev": 0.36}
+
+    @property
+    def _MD_MAG_SCALE_PARAMS(self):
+        """Set parameters for loglinear magnitude scaling for maximum displacement."""
+        # Parameters based on Wells and Coppersmith (1994) All styles
+        return {"intercept": -5.46, "slope": 0.82, "std_dev": 0.42}
+
     @property
     def _normalized_calcs(self) -> NormalizedFaultDisplacementModel:
         """Return an instance of the NormalizedFaultDisplacementModel for the current context."""

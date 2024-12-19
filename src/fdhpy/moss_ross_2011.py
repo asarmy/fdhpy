@@ -75,9 +75,6 @@ class MossRoss2011(FaultDisplacementModel):
 
     _MODEL_NAME = "MossRoss2011"
 
-    _AD_MAG_SCALE_PARAMS = {"intercept": -2.2192, "slope": 0.3244, "std_dev": 0.17}
-    _MD_MAG_SCALE_PARAMS = {"intercept": -3.1971, "slope": 0.5102, "std_dev": 0.31}
-
     # Override the init method to set model defaults
     def __init__(self, **kwargs):
         kwargs.setdefault("metric", "principal")
@@ -92,6 +89,16 @@ class MossRoss2011(FaultDisplacementModel):
         return self._calc_folded_xl()
 
     # Required methods for implementing normalized fault displacement models
+    @property
+    def _AD_MAG_SCALE_PARAMS(self):
+        """Set parameters for loglinear magnitude scaling for average displacement."""
+        return {"intercept": -2.2192, "slope": 0.3244, "std_dev": 0.17}
+
+    @property
+    def _MD_MAG_SCALE_PARAMS(self):
+        """Set parameters for loglinear magnitude scaling for maximum displacement."""
+        return {"intercept": -3.1971, "slope": 0.5102, "std_dev": 0.31}
+
     @property
     def _normalized_calcs(self) -> NormalizedFaultDisplacementModel:
         """Return an instance of the NormalizedFaultDisplacementModel for the current context."""
