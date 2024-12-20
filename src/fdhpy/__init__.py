@@ -1,5 +1,7 @@
 """fdhpy: Fault displacement models implemented in Python."""
 
+from importlib.metadata import version as _version
+
 from .chiou_et_al_2025 import ChiouEtAl2025
 from .kuehn_et_al_2024 import KuehnEtAl2024
 from .lavrentiadis_abrahamson_2023 import LavrentiadisAbrahamson2023
@@ -18,6 +20,14 @@ __all__ = [
     "ChiouEtAl2025",
 ]
 
+# Initialize version
+try:
+    __version__ = _version("fdhpy")
+except Exception:
+    __version__ = "unknown"
+
+# Documentation reference
+__doc_url__ = "https://fdhpy.readthedocs.io"
 
 # Custom attribute to provide abridged help
 #  python -c "import fdhpy; print(fdhpy.__quickstart__)"
