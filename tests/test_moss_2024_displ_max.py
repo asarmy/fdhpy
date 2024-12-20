@@ -10,15 +10,15 @@ RTOL = 1e-3
 ATOL = 1e-8
 
 
-@pytest.mark.parametrize("filename", ["moss_2024_displ_max_complete_model.csv"])
+@pytest.mark.parametrize("filename", ["moss_2024_displ_max.csv"])
 def test_displ_max(load_expected):
     """Verify the predicted displacements."""
 
     for row in load_expected:
-        magnitude, percentile, expected = row
+        magnitude, percentile, complete, expected = row
 
         # Instantiate the model with the scenario attributes
-        model = MossEtAl2024(magnitude=magnitude, percentile=percentile)
+        model = MossEtAl2024(magnitude=magnitude, percentile=percentile, complete=complete)
 
         computed = model.displ_max
 
@@ -29,7 +29,7 @@ def test_displ_max(load_expected):
             rtol=RTOL,
             atol=ATOL,
             err_msg=(
-                f"Mag {magnitude}, percentile {percentile}"
+                f"Mag {magnitude}, percentile {percentile}, complete={complete} "
                 f"Expected MD: {expected}, Computed MD: {computed}"
             ),
         )
@@ -40,4 +40,4 @@ def test_invalid_inputs(caplog):
 
     with caplog.at_level("WARNING"):
         # Ignored attribute `xl`
-        MossEtAl2024(magnitude=7, xl=0.5, percentile=0.5, version="d/ad").displ_max
+        MossEtAl2024(magnitude=7, xl=0.5, percentile=0.5).displ_max

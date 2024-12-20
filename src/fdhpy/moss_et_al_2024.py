@@ -61,11 +61,19 @@ class MossEtAl2024(FaultDisplacementModel):
         statistical distribution parameters (alpha and beta) from Table 2 in the Earthquake Spectra
         paper at https://doi.org/10.1177/87552930241288560. Default is False.
 
+    complete : bool, optional
+        If True, use Moss et al. (2024) reference displacement models (AD or MD) with the
+        "complete" designation. If False, use Moss et al. (2024) reference displacement models
+        with the "all" designation. Default is True.
+
     Notes
     -----
     - The statistical distribution parameters (alpha and beta) can be computed from Table 2 in the
       Earthquake Spectra paper (default) or from the regression model in the GIRS technical report.
       See `use_girs` parameter above for more information.
+
+    - The reference displacement (AD or MD) can be based on the Moss et al. (2024) "complete"
+      subset or "all" data. See `complete` parameter above for more information.
 
     See model help at the module level:
 
@@ -97,11 +105,12 @@ class MossEtAl2024(FaultDisplacementModel):
         kwargs.setdefault("metric", "principal")
         kwargs.setdefault("style", "reverse")
         self.use_girs = kwargs.pop("use_girs", False)
+        self.complete = kwargs.pop("complete", True)
         super().__init__(**kwargs)
 
     def __str__(self):
         parent_str = super().__str__()
-        return parent_str[:-1] + f", use_girs={self.use_girs})"
+        return parent_str[:-1] + f", use_girs={self.use_girs}, complete={self.complete})"
 
     # NOTE: magnitude, xl, and version are validated in parent class initialization
 
@@ -133,12 +142,18 @@ class MossEtAl2024(FaultDisplacementModel):
     @property
     def _AD_MAG_SCALE_PARAMS(self):
         """Set parameters for loglinear magnitude scaling for average displacement."""
-        return {"intercept": -2.87, "slope": 0.416, "std_dev": 0.2}
+        if self.complete:
+            return {"intercept": -2.87, "slope": 0.416, "std_dev": 0.2}
+        else:
+            return {"intercept": -2.98, "slope": 0.427, "std_dev": 0.25}
 
     @property
     def _MD_MAG_SCALE_PARAMS(self):
         """Set parameters for loglinear magnitude scaling for maximum displacement."""
-        return {"intercept": -2.5, "slope": 0.415, "std_dev": 0.2}
+        if self.complete:
+            return {"intercept": -2.5, "slope": 0.415, "std_dev": 0.2}
+        else:
+            return {"intercept": -2.73, "slope": 0.422, "std_dev": 0.35}
 
     @property
     def _normalized_calcs(self) -> NormalizedFaultDisplacementModel:
@@ -261,6 +276,16 @@ class MossEtAl2024(FaultDisplacementModel):
                 "to obtain statistical distribution parameters (alpha and beta) from Table 2 in "
                 "the Earthquake Spectra paper at https://doi.org/10.1177/87552930241288560. "
                 "Default is False."
+            ),
+        )
+        parser.add_argument(
+            "--complete",
+            default=True,
+            type=bool,
+            help=(
+                "If True, use Moss et al. (2024) reference displacement models (AD or MD) with "
+                "the 'complete' designation. If False, use Moss et al. (2024) reference "
+                "displacement models with the 'all' designation. Default is True."
             ),
         )
 
