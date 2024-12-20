@@ -60,8 +60,8 @@ class LavrentiadisAbrahamson2023(FaultDisplacementModel):
         Displacement test value(s) in meters. Default array is provided.
 
     include_prob_zero : bool, optional
-        Include the probability of zero displacements. Default True. Not used in calculations for
-        average displacement or maximum displacement.
+        If True (or `--exclude_prob_zero` in CLI), include the probability of zero displacements.
+        Default True. Not used in calculations for average displacement or maximum displacement.
 
     Notes
     -----
@@ -675,10 +675,12 @@ class LavrentiadisAbrahamson2023(FaultDisplacementModel):
     def _add_arguments(parser):
         # Add arguments specific to model
         parser.add_argument(
-            "--include_prob_zero",
-            default=True,
-            type=bool,
-            help=("Include the probability of zero displacements. Default True."),
+            "--exclude_prob_zero",
+            dest="include_prob_zero",
+            action="store_false",
+            help=(
+                "Exclude the probability of zero displacements. Default True (i.e., include it)."
+            ),
         )
 
     @staticmethod

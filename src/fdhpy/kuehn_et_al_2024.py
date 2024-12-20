@@ -56,7 +56,8 @@ class KuehnEtAl2024(FaultDisplacementModel):
         Displacement test value(s) in meters. Default array is provided.
 
     folded : bool, optional
-        Calculate results for the folded location. Default True.
+        If True, calculate results for the folded location. If False (or `--unfolded` in CLI),
+        use unfolded (i.e., asymmetric) model. Default True.
 
     Notes
     -----
@@ -613,11 +614,10 @@ class KuehnEtAl2024(FaultDisplacementModel):
     def _add_arguments(parser):
         # Add arguments specific to model
         parser.add_argument(
-            "-f",
-            "--folded",
-            default=True,
-            type=bool,
-            help=("Calculate results for the folded location. Default True."),
+            "--unfolded",
+            dest="folded",
+            action="store_false",
+            help=("Calculate results for the unfolded location. Default uses folded."),
         )
 
     @staticmethod

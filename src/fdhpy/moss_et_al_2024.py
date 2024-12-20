@@ -55,16 +55,16 @@ class MossEtAl2024(FaultDisplacementModel):
         Displacement test value(s) in meters. Default array is provided.
 
     use_girs : bool, optional
-        If True, use statistical distribution parameters (alpha and beta) from the regression
-        model on Figures 4.3 & 4.4 in the Moss et al. (2022) technical report at
-        https://doi.org/10.34948/N3F595. If False, use piecewise linear interpolation to obtain
+        If True (or `--use_girs` in CLI), use statistical distribution parameters (alpha and beta)
+        from the regression model on Figures 4.3 & 4.4 in the Moss et al. (2022) technical report
+        at https://doi.org/10.34948/N3F595. If False, use piecewise linear interpolation to obtain
         statistical distribution parameters (alpha and beta) from Table 2 in the Earthquake Spectra
         paper at https://doi.org/10.1177/87552930241288560. Default is False.
 
     complete : bool, optional
         If True, use Moss et al. (2024) reference displacement models (AD or MD) with the
-        "complete" designation. If False, use Moss et al. (2024) reference displacement models
-        with the "all" designation. Default is True.
+        "complete" designation. If False (or `--incomplete` in CLI), use Moss et al. (2024)
+        reference displacement models with the "all" designation. Default is True.
 
     Notes
     -----
@@ -267,25 +267,25 @@ class MossEtAl2024(FaultDisplacementModel):
         # Add arguments specific to model
         parser.add_argument(
             "--use_girs",
-            default=False,
-            type=bool,
+            action="store_true",
             help=(
                 "If True, use statistical distribution parameters (alpha and beta) from the "
                 "regression model on Figures 4.3 & 4.4 in the Moss et al. (2022) technical report "
                 "at https://doi.org/10.34948/N3F595. If False, use piecewise linear interpolation "
                 "to obtain statistical distribution parameters (alpha and beta) from Table 2 in "
                 "the Earthquake Spectra paper at https://doi.org/10.1177/87552930241288560. "
-                "Default is False."
+                "Default is False (i.e., use EQS not GIRS)."
             ),
         )
         parser.add_argument(
-            "--complete",
-            default=True,
-            type=bool,
+            "--incomplete",
+            dest="complete",
+            action="store_false",
             help=(
                 "If True, use Moss et al. (2024) reference displacement models (AD or MD) with "
                 "the 'complete' designation. If False, use Moss et al. (2024) reference "
-                "displacement models with the 'all' designation. Default is True."
+                "displacement models with the 'all' designation. Default is True (i.e., use "
+                "complete, not all)."
             ),
         )
 
