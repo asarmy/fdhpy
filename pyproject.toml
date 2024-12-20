@@ -4,13 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "fdhpy"
-version = "1.0.0"
+version = "1.0.1"
 description = "Implementations of FDHI Project Fault Displacement Models"
 authors = [
-    { name = "Alex Sarmiento" }
+    { name = "Alex Sarmiento" , email = "asarmy@ucla.edu" }
 ]
 readme = "README.md"
 license = { text = "MIT" }
+keywords = ["fault displacement", "seismic hazard", "fdhpy"]
 requires-python = ">=3.8" #pytest requires 3.8+
 dependencies = [
 	"numpy",
@@ -60,3 +61,4 @@ fd-cea25 = "fdhpy.chiou_et_al_2025:ChiouEtAl2025.main"
 
 [project.urls]
 repository = "https://github.com/asarmy/fdhpy"
+homepage = "https://github.com/NHR3-UCLA/FDHI_FDM"

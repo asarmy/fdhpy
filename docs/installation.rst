@@ -3,7 +3,7 @@ Installation
 
 The package is available on PyPI and can be installed using `pip`.
 
-To install the package, run the following command in your terminal:
+To **install** the package, run the following command in your terminal:
 
 .. code-block:: bash
 
@@ -15,3 +15,15 @@ This command instructs `pip` to:
 2. Fall back to the main PyPI repository for any dependencies that are not available on PyPI.
 
 The package dependencies (`numpy`, `pandas`, and `scipy`) do not have specific version requirements, so installing this package with `pip` should not interfere with a Conda environment.
+
+To **upgrade** to the latest version, run the following command in your terminal:
+
+.. code-block:: bash
+
+    pip install --upgrade fdhpy
+
+To check the version installed in your environment, run the following command in your terminal:
+
+.. code-block:: bash
+
+    pip show fdhpy
