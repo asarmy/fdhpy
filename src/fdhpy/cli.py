@@ -53,6 +53,7 @@ def cli_runner(cls, additional_kwargs=None):
     )
     parser.add_argument("-p", "--percentile", type=float, help="Aleatory quantile of interest.")
     parser.add_argument("-v", "--version", type=str, help="Model version.")
+    parser.add_argument("--metric", type=str, help="Definition of displacement.")
 
     # Add additional model-specific arguments
     if additional_kwargs:
