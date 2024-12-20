@@ -18,10 +18,10 @@ def test_params_ad(load_expected):
     """
 
     for row in load_expected:
-        magnitude, mu_expected, sigma_expected = row
+        magnitude, complete_flag, mu_expected, sigma_expected = row
 
         # Instantiate the model with the scenario attributes
-        model = MossEtAl2024(magnitude=magnitude, version="d/ad")
+        model = MossEtAl2024(magnitude=magnitude, version="d/ad", complete=complete_flag)
 
         mu_calculated = model.stat_params_info["params"]["mu"]
         sigma_calculated = model.stat_params_info["params"]["sigma"]
@@ -52,10 +52,10 @@ def test_params_md(load_expected):
     """
 
     for row in load_expected:
-        magnitude, mu_expected, sigma_expected = row
+        magnitude, complete_flag, mu_expected, sigma_expected = row
 
         # Instantiate the model with the scenario attributes
-        model = MossEtAl2024(magnitude=magnitude, version="d/md")
+        model = MossEtAl2024(magnitude=magnitude, version="d/md", complete=complete_flag)
 
         mu_calculated = model.stat_params_info["params"]["mu"]
         sigma_calculated = model.stat_params_info["params"]["sigma"]
@@ -87,7 +87,7 @@ def test_params_normalized(load_expected):
 
         # Instantiate the model with the scenario attributes
         # Magnitude is required in fdhpy, use any value here
-        model = MossEtAl2024(xl=xl, version=version, use_girs=girs_flag, magnitude=7)
+        model = MossEtAl2024(xl=xl, version=version, use_girs=girs_flag)
 
         alpha_calculated = model.stat_params_info["params"]["alpha"]
         beta_calculated = model.stat_params_info["params"]["beta"]

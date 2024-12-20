@@ -22,6 +22,7 @@ def test_prob_exceed_d_ad_girs(load_expected):
     xl = 0.5
     version = "d/ad"
     girs_flag = True
+    complete_flag = True
     displ_arr = load_expected["displacement"]
 
     # Expected
@@ -29,7 +30,12 @@ def test_prob_exceed_d_ad_girs(load_expected):
 
     # Instantiate the model with the scenario attributes
     model = MossEtAl2024(
-        magnitude=magnitude, xl=xl, version=version, displ_array=displ_arr, use_girs=girs_flag
+        magnitude=magnitude,
+        xl=xl,
+        version=version,
+        displ_array=displ_arr,
+        use_girs=girs_flag,
+        complete=complete_flag,
     )
 
     computed = model.prob_exceed
@@ -56,6 +62,7 @@ def test_prob_exceed_d_md_girs(load_expected):
     xl = 0.5
     version = "d/md"
     girs_flag = True
+    complete_flag = True
     displ_arr = load_expected["displacement"]
 
     # Expected
@@ -63,7 +70,12 @@ def test_prob_exceed_d_md_girs(load_expected):
 
     # Instantiate the model with the scenario attributes
     model = MossEtAl2024(
-        magnitude=magnitude, xl=xl, version=version, displ_array=displ_arr, use_girs=girs_flag
+        magnitude=magnitude,
+        xl=xl,
+        version=version,
+        displ_array=displ_arr,
+        use_girs=girs_flag,
+        complete=complete_flag,
     )
 
     computed = model.prob_exceed
@@ -90,6 +102,7 @@ def test_prob_exceed_d_ad_eqs(load_expected):
     xl = 0.5
     version = "d/ad"
     girs_flag = False
+    complete_flag = True
     displ_arr = load_expected["displacement"]
 
     # Expected
@@ -97,7 +110,12 @@ def test_prob_exceed_d_ad_eqs(load_expected):
 
     # Instantiate the model with the scenario attributes
     model = MossEtAl2024(
-        magnitude=magnitude, xl=xl, version=version, displ_array=displ_arr, use_girs=girs_flag
+        magnitude=magnitude,
+        xl=xl,
+        version=version,
+        displ_array=displ_arr,
+        use_girs=girs_flag,
+        complete=complete_flag,
     )
 
     computed = model.prob_exceed
@@ -124,6 +142,7 @@ def test_prob_exceed_d_md_eqs(load_expected):
     xl = 0.5
     version = "d/md"
     girs_flag = False
+    complete_flag = True
     displ_arr = load_expected["displacement"]
 
     # Expected
@@ -131,7 +150,12 @@ def test_prob_exceed_d_md_eqs(load_expected):
 
     # Instantiate the model with the scenario attributes
     model = MossEtAl2024(
-        magnitude=magnitude, xl=xl, version=version, displ_array=displ_arr, use_girs=girs_flag
+        magnitude=magnitude,
+        xl=xl,
+        version=version,
+        displ_array=displ_arr,
+        use_girs=girs_flag,
+        complete=complete_flag,
     )
 
     computed = model.prob_exceed

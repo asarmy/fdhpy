@@ -74,10 +74,10 @@ class FaultDisplacementModelVariables:
     )
 
     displ_array: np.ndarray = field(
-        default=np.logspace(start=np.log(0.01), stop=np.log(80), num=25, base=np.e),
+        default=np.logspace(start=np.log(0.001), stop=np.log(80), num=25, base=np.e),
         converter=lambda x: np.atleast_1d(np.asarray(x, dtype=float)),
         validator=validators.deep_iterable(
-            member_validator=validators.and_(validators.ge(0.01), validators.le(100)),
+            member_validator=validators.and_(validators.ge(0.001), validators.le(100)),
             iterable_validator=validators.instance_of(np.ndarray),
         ),
     )

@@ -15,7 +15,7 @@ def test_displ_site(load_expected):
     """Verify the predicted displacements."""
 
     for row in load_expected:
-        version, girs_flag, magnitude, xl, percentile, expected = row
+        version, girs_flag, complete_flag, magnitude, xl, percentile, expected = row
 
         # Instantiate the model with the scenario attributes
         model = MossEtAl2024(
@@ -24,6 +24,7 @@ def test_displ_site(load_expected):
             percentile=percentile,
             version=version,
             use_girs=girs_flag,
+            complete=complete_flag,
         )
 
         computed = model.displ_site
