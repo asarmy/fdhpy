@@ -518,10 +518,10 @@ class KuehnEtAl2024(FaultDisplacementModel):
 
         # Reshape arrays for broadcasting
         bc_parameter = bc_parameter.reshape(1, -1)  # Shape (1, N)
-        self.displ_array = self.displ_array.reshape(-1, 1)  # Shape (M, 1)
+        displ_array = self.displ_array.reshape(-1, 1)  # Shape (M, 1)
 
         # Transform displacements
-        z = (np.power(self.displ_array, bc_parameter) - 1) / bc_parameter  # Shape (M, N)
+        z = (np.power(displ_array, bc_parameter) - 1) / bc_parameter  # Shape (M, N)
 
         cdf_u1 = stat_params["prob_distribution"].cdf(
             x=z, **stat_params["prob_distribution_kwargs"]["u1"]
