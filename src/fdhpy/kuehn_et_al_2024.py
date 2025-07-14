@@ -368,7 +368,10 @@ class KuehnEtAl2024(FaultDisplacementModel):
         self._xl_std_dev_u1 = xl_std_dev_u1
 
     def _calc_displ_site(self) -> Optional[Union[float, np.ndarray]]:
-        """Calculate deterministic scenario displacement."""
+        """
+        Calculate deterministic scenario displacement. Returns zero if displacement is less than 1
+        mm (0.001 m).
+        """
 
         # Access only once and store in local variables
         bc_parameter = self._coefficients["lambda"]
@@ -412,7 +415,7 @@ class KuehnEtAl2024(FaultDisplacementModel):
             with np.errstate(invalid="ignore"):
                 # Handle values that are too small to calculate
                 displ = np.power(value * bc_parameter + 1, 1 / bc_parameter)
-                return np.where(np.isnan(displ), 0, displ)
+                return np.where(np.isnan(displ) | (displ < 0.001), 0, displ)
 
         displ_u1_bc = _calc_transformed_displ(params_dict=stat_params, u_key="u1")
 
