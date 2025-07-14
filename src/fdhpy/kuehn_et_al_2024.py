@@ -447,9 +447,9 @@ class KuehnEtAl2024(FaultDisplacementModel):
             is "aggregate".
 
         version : str, optional
-            Name of the model formulation (case-insensitive). This value must be "median_coeffs"
-            for this method ("full_coeffs" option is not implemented for the average displacement
-            calculations).
+            Name of the model formulation (case-insensitive). This value must be "median_coeffs" or
+            "mean_coeffs" for this method ("full_coeffs" option is not implemented for the average
+            displacement calculations).
 
         Returns
         -------

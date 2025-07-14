@@ -85,7 +85,7 @@ class LavrentiadisAbrahamson2023(FaultDisplacementModel):
 
         .. code-block:: console
 
-            $ fd-kea24 --help
+            $ fd-la23 --help
     """
 
     _CONDITIONS = {
