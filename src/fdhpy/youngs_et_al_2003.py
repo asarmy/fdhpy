@@ -132,8 +132,8 @@ class YoungsEtAl2003(FaultDisplacementModel):
                 a1, a2 = 1.138, -0.705
                 b1, b2 = -0.257, 0.421
 
-            self._alpha = np.exp(a1 * self._folded_xl + a2)
-            self._beta = np.exp(b1 * self._folded_xl + b2)
+            self._alpha = float(np.exp(a1 * self._folded_xl + a2))
+            self._beta = float(np.exp(b1 * self._folded_xl + b2))
 
         # Compute mu and sigma parameters based on magnitude and model version
         regr_params_map = {

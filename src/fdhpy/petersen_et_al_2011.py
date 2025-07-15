@@ -119,11 +119,11 @@ class PetersenEtAl2011(FaultDisplacementModel):
         if self.version == "elliptical":
             a, b, c = 1.7927, 3.3041, -11.2192
             self._std_dev = 1.1348
-            self._mean = b * self._xstar + a * self.magnitude + c
+            self._mean = float(b * self._xstar + a * self.magnitude + c)
         elif self.version == "quadratic":
             a, b, c, d = 1.7895, 14.4696, -20.1723, -10.54512
             self._std_dev = 1.1346
-            self._mean = (
+            self._mean = float(
                 a * self.magnitude + b * self._folded_xl + c * np.power(self._folded_xl, 2) + d
             )
         else:

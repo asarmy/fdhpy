@@ -109,13 +109,13 @@ class MossRoss2011(FaultDisplacementModel):
         # Compute alpha and beta parameters based on folded x/L and model version
         if self.xl is not None:
             if self.version == "d/ad":
-                self._alpha = np.exp(
+                alpha = np.exp(
                     -30.4 * self._folded_xl**3
                     + 19.9 * self._folded_xl**2
                     - 2.29 * self._folded_xl
                     + 0.574
                 )
-                self._beta = np.exp(
+                beta = np.exp(
                     50.3 * self._folded_xl**3
                     - 34.6 * self._folded_xl**2
                     + 6.6 * self._folded_xl
@@ -124,8 +124,11 @@ class MossRoss2011(FaultDisplacementModel):
             elif self.version == "d/md":
                 a1, a2 = 0.901, 0.713
                 b1, b2 = -1.86, 1.74
-                self._alpha = a1 * self._folded_xl + a2
-                self._beta = b1 * self._folded_xl + b2
+                alpha = a1 * self._folded_xl + a2
+                beta = b1 * self._folded_xl + b2
+
+            self._alpha = float(alpha)
+            self._beta = float(beta)
 
         # Compute mu and sigma parameters based on magnitude and model version
         regr_params_map = {

@@ -361,8 +361,15 @@ class KuehnEtAl2024(FaultDisplacementModel):
         mag_std_dev = self._calc_sigma_mag()
         xl_std_dev_u1, xl_std_dev_u2 = self._calc_sigma_xl()
 
-        self._total_std_dev_u1 = np.sqrt(np.power(mag_std_dev, 2) + np.power(xl_std_dev_u1, 2))
-        self._total_std_dev_u2 = np.sqrt(np.power(mag_std_dev, 2) + np.power(xl_std_dev_u2, 2))
+        total_std_dev_u1 = np.sqrt(np.power(mag_std_dev, 2) + np.power(xl_std_dev_u1, 2))
+        total_std_dev_u2 = np.sqrt(np.power(mag_std_dev, 2) + np.power(xl_std_dev_u2, 2))
+
+        self._total_std_dev_u1 = (
+            total_std_dev_u1.item() if total_std_dev_u1.size == 1 else total_std_dev_u1
+        )
+        self._total_std_dev_u2 = (
+            total_std_dev_u2.item() if total_std_dev_u2.size == 1 else total_std_dev_u2
+        )
 
         # NOTE: Need to store sigma_xl_u1 attribute for Avg Displ calculation
         self._xl_std_dev_u1 = xl_std_dev_u1

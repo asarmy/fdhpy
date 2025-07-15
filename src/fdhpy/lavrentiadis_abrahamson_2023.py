@@ -422,12 +422,12 @@ class LavrentiadisAbrahamson2023(FaultDisplacementModel):
         def _stat_params_indiv(metric) -> Tuple[float, float]:
             if metric == "aggregate":
                 mu = self._calc_mu_agg_seg()
-                std_dev = np.sqrt(np.power(phi_agg, 2) + np.power(tau_agg, 2))
+                std_dev = np.sqrt(np.power(phi_agg, 2) + np.power(tau_agg, 2)).item()  # float
 
             elif metric == "sum-of-principal":
                 mu = self._calc_mu_prnc_seg()
                 phi_prnc = self._calc_phi_prnc()
-                std_dev = np.sqrt(np.power(phi_prnc, 2) + np.power(tau_agg, 2))
+                std_dev = np.sqrt(np.power(phi_prnc, 2) + np.power(tau_agg, 2)).item()
 
             return mu, std_dev
 
@@ -439,7 +439,7 @@ class LavrentiadisAbrahamson2023(FaultDisplacementModel):
                 mu = self._calc_mu_agg_prime()
                 std_dev = np.sqrt(
                     np.power(phi_agg, 2) + np.power(tau_agg, 2) + np.power(phi_add, 2)
-                )
+                ).item()
 
             elif metric == "sum-of-principal":
                 mu = self._calc_mu_prnc_prime()

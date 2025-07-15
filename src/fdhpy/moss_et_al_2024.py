@@ -1,6 +1,6 @@
 """
 Moss et al. (2024) fault displacement model (https://doi.org/10.1177/87552930241288560).
- """
+"""
 
 import logging
 from functools import cached_property
@@ -195,6 +195,9 @@ class MossEtAl2024(FaultDisplacementModel):
                     # )
                     f = make_interp_spline(c["x_L"], _array, k=1)
                     setattr(self, _key, f(self._folded_xl))
+
+            self._alpha = float(self._alpha)
+            self._beta = float(self._beta)
 
         # Compute mu and sigma parameters based on magnitude and model version
         regr_params_map = {
