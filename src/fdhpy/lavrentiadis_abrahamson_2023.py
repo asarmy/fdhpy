@@ -68,6 +68,12 @@ class LavrentiadisAbrahamson2023(FaultDisplacementModel):
     - See Lavrentiadis & Abrahamson (2023) for discussion on the probability of zero displacements,
       P(Gap) and P(D_P=0|no gap), which are enabled with the `include_prob_zero` flag.
 
+    - The probability of being in a gap without any principal or distributed ruptures, i.e. P(Gap),
+      can be accessed in an existing instance with `instance.p_gap`.
+
+    - The probability of zero principal displacement given rupture has occurred at the site, i.e.
+      P(D_P=0|no gap), can be accessed in an existing instance with `instance.p_zero_slip`.
+
     - Model uncertainty is provided with the standard deviation of the predicted mean (in
       transformed units). This is referred to as "sigma_mu_agg" in Lavrentiadis & Abrahamson (2023)
       and is magnitude- and style-dependent. It can be accessed in an existing instance with
@@ -78,8 +84,8 @@ class LavrentiadisAbrahamson2023(FaultDisplacementModel):
 
         .. code-block:: python
 
-            from fdhpy import KuehnEtAl2024
-            print(KuehnEtAl2024.__doc__)
+            from fdhpy import LavrentiadisAbrahamson2023
+            print(LavrentiadisAbrahamson2023.__doc__)
 
     See model help in command line:
 
@@ -141,7 +147,7 @@ class LavrentiadisAbrahamson2023(FaultDisplacementModel):
         self,
     ) -> Optional[float]:  # Use nomenclature in Lavrentiadis & Abrahamson (2023)
         """
-        Standard deviation of the predicted median aggregate displacement  in transformed units.
+        Standard deviation of the predicted median aggregate displacement in transformed units.
         """
         if self.magnitude >= 7.1:
             return 0.035 + 0.025 * (self.magnitude - 7.1)
@@ -152,13 +158,69 @@ class LavrentiadisAbrahamson2023(FaultDisplacementModel):
             result = 0.035 + c_s * (7.1 - self.magnitude)
             return result.item()
 
-        # return self._interpolate_uncertainties()[0]
+    @property
+    @_required("magnitude", "xl")
+    def p_gap(self) -> Optional[float]:
+        """
+        Probability of being in a gap without any principal or distributed ruptures; Equation 25 in
+        Lavrentiadis & Abrahamson (2023).
+        """
+        if not self.include_prob_zero:
+            return 0.0
+
+        if self.version == "individual segment":
+            return 0.0
+
+        c = self._coefficients
+
+        # Calculate max probability
+        P_gap_max = (
+            c["c_21"] + c["c_22"] * self.magnitude + c["c_23"] * np.power(self.magnitude - 6.5, 2)
+        )
+
+        # Calculate x/L adjustment
+        c_25 = c["c_25"]
+
+        c_24 = (
+            c["c_24a"]
+            + c["c_24b"] * (self.magnitude - 5)
+            + c["c_24c"] * np.power(self.magnitude - 5, 3)
+        )
+
+        c_26 = (
+            c["c_26a"]
+            + c["c_26b"] * (self.magnitude - 5)
+            + c["c_26c"] * np.power(self.magnitude - 5, 3)
+        )
+
+        f_NPGap = 20.0 * c_24 * np.clip(self._folded_xl - 0.10, 0.0, 0.05)  # first and second leg
+        f_NPGap += (
+            np.power(0.13, -1) * (1.0 - c_24) * np.clip(self._folded_xl - 0.15, 0.0, 0.13)
+        )  # third leg and fourth
+        f_NPGap -= 10.0 * (1.0 - c_25) * np.clip(self._folded_xl - 0.30, 0.0, 0.10)  # fifth leg
+        f_NPGap -= 10.0 * (c_25 - c_26) * np.clip(self._folded_xl - 0.40, 0.0, 0.10)  # sixth leg
+
+        return (P_gap_max * f_NPGap).item()
+
+    @property
+    def p_zero_slip(self) -> Optional[float]:
+        """
+        Probability of zero principal displacement given rupture has occurred at the site; Equation
+        32 in Lavrentiadis & Abrahamson (2023).
+        """
+        if not self.include_prob_zero:
+            return 0.0
+
+        c = self._coefficients
+        mu_agg_prime = self._calc_mu_agg_prime()
+        P_zero_slip = 1 / (1 + np.exp(c["b_0"] + c["b_1"] * mu_agg_prime))
+        return P_zero_slip.item()
 
     # Methods unique to model
     def _calc_wn_d_agg(self) -> Optional[float]:
         """
-        Calculate aggregate displacement from wavenumber simulation (exponentiation of
-        Equation 8 in Lavrentiadis & Abrahamson (2023)).
+        Calculate aggregate displacement from wavenumber simulation (exponentiation of Equation 8
+        in Lavrentiadis & Abrahamson (2023)).
         """
         try:
             if self.xl is None:
@@ -314,77 +376,14 @@ class LavrentiadisAbrahamson2023(FaultDisplacementModel):
         mu_prnc_seg = np.maximum(mu_agg_seg + c["b_2"], 0.0)
         return mu_prnc_seg.item()
 
-    def _calc_p_gap(self) -> Optional[float]:
-        """
-        Calculate the probability of being in a gap without any principal or distributed ruptures;
-        Equation 25 in Lavrentiadis
-        & Abrahamson (2023).
-        """
-        try:
-            if self.xl is None:
-                raise AttributeRequiredError("xl", self._MODEL_NAME)
-        except AttributeRequiredError as e:
-            logging.error(e)
-            return None
-
-        c = self._coefficients
-
-        # Calculate max probability
-        P_gap_max = (
-            c["c_21"] + c["c_22"] * self.magnitude + c["c_23"] * np.power(self.magnitude - 6.5, 2)
-        )
-
-        # Calculate x/L adjustment
-        c_25 = c["c_25"]
-
-        c_24 = (
-            c["c_24a"]
-            + c["c_24b"] * (self.magnitude - 5)
-            + c["c_24c"] * np.power(self.magnitude - 5, 3)
-        )
-
-        c_26 = (
-            c["c_26a"]
-            + c["c_26b"] * (self.magnitude - 5)
-            + c["c_26c"] * np.power(self.magnitude - 5, 3)
-        )
-
-        f_NPGap = 20.0 * c_24 * np.clip(self._folded_xl - 0.10, 0.0, 0.05)  # first and second leg
-        f_NPGap += (
-            np.power(0.13, -1) * (1.0 - c_24) * np.clip(self._folded_xl - 0.15, 0.0, 0.13)
-        )  # third leg and fourth
-        f_NPGap -= 10.0 * (1.0 - c_25) * np.clip(self._folded_xl - 0.30, 0.0, 0.10)  # fifth leg
-        f_NPGap -= 10.0 * (c_25 - c_26) * np.clip(self._folded_xl - 0.40, 0.0, 0.10)  # sixth leg
-
-        return (P_gap_max * f_NPGap).item()
-
-    def _calc_p_zero_slip(self) -> Optional[float]:
-        """
-        Calculate the probability of zero principal displacement given rupture has occurred at the
-        site (i.e., P_gap = 0); Equation 32 in Lavrentiadis & Abrahamson (2023).
-        """
-        c = self._coefficients
-        mu_agg_prime = self._calc_mu_agg_prime()
-        P_zero_slip = 1 / (1 + np.exp(c["b_0"] + c["b_1"] * mu_agg_prime))
-        return P_zero_slip.item()
-
     def _scale_by_zero_probability(
         self, value: Union[float, np.ndarray]
     ) -> Optional[Union[float, np.ndarray]]:
-        """
-        Scale the value by the probability of zero displacement based on the metric and
-        `include_prob_zero` flag.
-        """
-
-        P_gap, P_zero_slip = 0, 0
-        if self.include_prob_zero:
-            P_gap = self._calc_p_gap()
-            P_zero_slip = self._calc_p_zero_slip()
-
+        """Scale the value by the probability of zero displacement."""
         if self.metric == "aggregate":
-            return value * (1 - P_gap)
+            return value * (1 - self.p_gap)
         elif self.metric == "sum-of-principal":
-            return value * (1 - P_gap) * (1 - P_zero_slip)
+            return value * (1 - self.p_gap) * (1 - self.p_zero_slip)
 
     def _calc_power_normal_mean(
         self, *, stat_distrib: rv_continuous, stat_kwargs: Dict[str, float]
