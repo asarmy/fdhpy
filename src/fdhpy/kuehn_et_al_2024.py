@@ -371,8 +371,11 @@ class KuehnEtAl2024(FaultDisplacementModel):
             total_std_dev_u2.item() if total_std_dev_u2.size == 1 else total_std_dev_u2
         )
 
+        # Set attributes for stat_params_info dictionary
         # NOTE: Need to store sigma_xl_u1 attribute for Avg Displ calculation
+        self._mag_std_dev = mag_std_dev
         self._xl_std_dev_u1 = xl_std_dev_u1
+        self._xl_std_dev_u2 = xl_std_dev_u2
 
     def _calc_displ_site(self) -> Optional[Union[float, np.ndarray]]:
         """
@@ -473,8 +476,11 @@ class KuehnEtAl2024(FaultDisplacementModel):
         """
         if self.percentile != 0.5:
             e = ValueError(
-                f"\n\tThe `{self._MODEL_NAME}` model does not provide aleatory variability "
-                "on the average displacement. Use `percentile=0.5` instead.\n\n"
+                f"\n\tThe `{self._MODEL_NAME}` model does not provide aleatory variability on the "
+                "average displacement. Use `percentile=0.5` instead.\n\t"
+                "NOTE: You can treat `sigma_mag` as the aleatory variability on AD (pers. comm. "
+                "N. Kuehn). Access it in the instance stat params dict: "
+                "`instance.stat_params_info['params']['u1']['sigma_m']`.\n\n"
             )
             logging.error(e)
             return
@@ -578,6 +584,7 @@ class KuehnEtAl2024(FaultDisplacementModel):
             statistical_parameters = {
                 "u1": {
                     "mu": self._mean_u1,
+                    "sigma_m": self._mag_std_dev,
                     "sigma_xl": self._xl_std_dev_u1,
                 }
             }
@@ -593,22 +600,26 @@ class KuehnEtAl2024(FaultDisplacementModel):
             statistical_parameters = {
                 "u1": {
                     "mu": self._mean_u1,
-                    "sigma": self._total_std_dev_u1,
+                    "sigma_m": self._mag_std_dev,
+                    "sigma_xl": self._xl_std_dev_u1,
+                    "sigma_total": self._total_std_dev_u1,
                 },
                 "u2": {
                     "mu": self._mean_u2,
-                    "sigma": self._total_std_dev_u2,
+                    "sigma_m": self._mag_std_dev,
+                    "sigma_xl": self._xl_std_dev_u2,
+                    "sigma_total": self._total_std_dev_u2,
                 },
             }
 
             probability_distribution_kwargs = {
                 "u1": {
                     "loc": statistical_parameters["u1"]["mu"],
-                    "scale": statistical_parameters["u1"]["sigma"],
+                    "scale": statistical_parameters["u1"]["sigma_total"],
                 },
                 "u2": {
                     "loc": statistical_parameters["u2"]["mu"],
-                    "scale": statistical_parameters["u2"]["sigma"],
+                    "scale": statistical_parameters["u2"]["sigma_total"],
                 },
             }
 
