@@ -1,6 +1,15 @@
 Version History
 ===============
 
+Version 1.0.2 (2025-07-15)
+--------------------------
+Minor improvements:
+- Fix typos in docstrings.
+- Standardize return types: convert 1-element arrays to float across subclasses.
+- KEA24: update `displ_site` to handle cases where back-transformed values are too small to calculate; now returns zero for displacements less than 1 mm.
+- KEA24: update `stat_params_info` dictionary to include sigma_mag, sigma_xl, and Box-Cox transformation parameter lambda.
+- LA23: expose gap and zero principal displacement probabilities as public properties.
+
 Version 1.0.1 (2024-12-19)
 --------------------------
 - Fix boolean CLI arguments.
