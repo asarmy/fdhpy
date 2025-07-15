@@ -575,18 +575,22 @@ class KuehnEtAl2024(FaultDisplacementModel):
 
         Notes
         -----
+        - Key "lambda" is the Box-Cox transformation parameter.
         - Keys "u1" and "u2" correspond to "xl" and "1-xl", respectively.
         """
         self._statistical_distribution_params()
+        bc_parameter = self._coefficients["lambda"]
+        bc_parameter = bc_parameter.item() if bc_parameter.size == 1 else bc_parameter
 
         if self._EXCLUDE_SIGMA_MAG:  # Only used for Avg Displ calculations
 
             statistical_parameters = {
+                "lambda": bc_parameter,
                 "u1": {
                     "mu": self._mean_u1,
                     "sigma_m": self._mag_std_dev,
                     "sigma_xl": self._xl_std_dev_u1,
-                }
+                },
             }
 
             probability_distribution_kwargs = {
@@ -598,6 +602,7 @@ class KuehnEtAl2024(FaultDisplacementModel):
 
         else:
             statistical_parameters = {
+                "lambda": bc_parameter,
                 "u1": {
                     "mu": self._mean_u1,
                     "sigma_m": self._mag_std_dev,
