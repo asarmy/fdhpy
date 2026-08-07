@@ -149,7 +149,7 @@ class ChiouEtAl2025(FaultDisplacementModel):
 
         # Calculate the mean `mu` of the Gaussian component
         fm = self._calc_fm()
-        self._mu = float(c["c0"] + fm + c["c1"] * (self._xstar - 1))
+        self._mu = (c["c0"] + fm + c["c1"] * (self._xstar - 1)).item()
 
         # Calculate the total standard deviation `sigma_prime` of the Gaussian component
         std_dev_mag = self._calc_sigma_mag()
