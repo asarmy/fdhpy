@@ -625,7 +625,7 @@ class LavrentiadisAbrahamson2023(FaultDisplacementModel):
             return cdf
         if self.version == "full rupture":
             # Check for `include_prob_zero` handled in helper function
-            return self._scale_by_zero_probability(cdf)
+            return 1 - self._scale_by_zero_probability(1 - cdf)
 
     def _calc_prob_exceed(self) -> Optional[np.ndarray]:
         z = np.power(self.displ_array, 0.3)
