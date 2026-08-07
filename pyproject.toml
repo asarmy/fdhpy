@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "fdhpy"
-version = "1.0.2"
+version = "1.0.3"
 description = "Implementations of FDHI Project Fault Displacement Models"
 authors = [
     { name = "Alex Sarmiento" , email = "asarmy@ucla.edu" }

@@ -1,6 +1,12 @@
 Version History
 ===============
 
+Version 1.0.3 (2026-08-07)
+--------------------------
+Bug fixes:
+- Fix Issue #1, "ChiouEtAl2025 crashes (or silently returns None) under numpy>=2.0."
+- Fix Issue #2, "LavrentiadisAbrahamson2023.cdf is not the complement of prob_exceed when include_prob_zero=True."
+
 Version 1.0.2 (2025-07-15)
 --------------------------
 Minor improvements:
